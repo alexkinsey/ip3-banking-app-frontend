@@ -1,25 +1,39 @@
-import logo from './logo.svg';
+// React and Router
+import { BrowserRouter as Router } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
+
+// Styles and Themes
+import { GlobalStyles } from './common/styles/GlobalStyles';
+import { theme } from './common/styles/Theme';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+// Components and Helpers
+import { ScrollToTop } from './common/helpers/ScrollToTop';
+import { NavBar } from './components/NavBar/NavBar';
 
-export default App;
+// Providers
+import { AuthUserProvider } from './providers/AuthUserProvider';
+import { CustomerProvider } from './providers/CustomerProvider';
+import { AccountsProvider } from './providers/AccountsProvider';
+
+// Routes
+import { AppRoutes } from './AppRoutes';
+
+export const App = () => {
+  return (
+    <ThemeProvider theme={theme}>
+      <AuthUserProvider>
+        <CustomerProvider>
+          <AccountsProvider>
+            <GlobalStyles />
+            <Router>
+              <ScrollToTop />
+              <NavBar />
+              <AppRoutes />
+            </Router>
+          </AccountsProvider>
+        </CustomerProvider>
+      </AuthUserProvider>
+    </ThemeProvider>
+  );
+};
