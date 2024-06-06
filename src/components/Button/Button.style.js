@@ -12,7 +12,7 @@ export const StyledButton = styled.button`
   justify-content: ${({ children }) =>
     React.Children.count(children) > 1 ? 'space-between' : 'center'};
   cursor: pointer;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: ${({ theme }) => theme.fonts.weights.medium};
   width: 100%;
   padding: 15px 20px;
