@@ -9,11 +9,15 @@ import { ButtonPatternContainer } from './ButtonPattern.style';
 export const ButtonPattern = ({
   secondaryLabel = 'Secondary Button',
   primaryLabel = 'Primary Button',
+  onSecondaryClick,
+  onPrimaryClick,
 }) => {
   return (
     <ButtonPatternContainer>
-      <Button type="secondary">{secondaryLabel}</Button>
-      <Button>{primaryLabel}</Button>
+      <Button type="secondary" onClick={onSecondaryClick}>
+        {secondaryLabel}
+      </Button>
+      <Button onClick={onPrimaryClick}>{primaryLabel}</Button>
     </ButtonPatternContainer>
   );
 };
@@ -21,4 +25,6 @@ export const ButtonPattern = ({
 ButtonPattern.propTypes = {
   secondaryLabel: PropTypes.string.isRequired,
   primaryLabel: PropTypes.string.isRequired,
+  onSecondaryClick: PropTypes.func,
+  onPrimaryClick: PropTypes.func,
 };

@@ -1,6 +1,4 @@
-import React from 'react';
-import styled from 'styled-components';
-import { Text } from '../Text/Text';
+// React Icons
 import {
   FaShoppingBasket,
   FaUtensils,
@@ -12,33 +10,15 @@ import {
 } from 'react-icons/fa';
 import { LuPopcorn } from 'react-icons/lu';
 
-const TransactionContainer = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const IconVendorPriceContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-`;
-
-const IconBox = styled.div`
-  background-color: ${({ theme, $category }) =>
-    theme.colors.category[$category] || theme.colors.primary};
-  aspect-ratio: 1;
-  height: 52px;
-  border-radius: 25%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const VendorPriceContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
+// Styled Components
+import {
+  IconBox,
+  IconVendorPriceContainer,
+  TransactionContainer,
+  VendorPriceContainer,
+} from './Transaction.style';
+import { Text } from '../Text/Text';
+import styled from 'styled-components';
 
 // Mapping of categories to icons
 const categoryIcons = {
