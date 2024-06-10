@@ -11,5 +11,7 @@ export const Container = styled.div`
   flex-shrink: 0;
   gap: 32px;
 
-  height: 100dv;
+  height: calc(
+    100dvh - 120px
+  ); /* Subtract the height of the navbar and the needed margin */
 `;

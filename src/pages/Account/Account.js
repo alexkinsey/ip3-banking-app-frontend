@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 
 // Hooks and helper functions
 import { useAccounts } from '../../hooks/useAccounts';
+import { useAuthUser } from '../../hooks/useAuthUser';
 import { useTheme } from 'styled-components';
 import { getDatesForMonth } from '../../common/helpers/getDatesForMonth';
 
@@ -19,11 +20,14 @@ import { DaySeparator } from '../../components/DaySeparator/DaySeparator';
 import { GroupContent } from '../../components/ContentLayout/GroupContent';
 import { AccountDetailsContainer, InfoIcon } from './Account.style';
 import { Transaction } from '../../components/Transaction/Transaction';
+import { useTransactions } from '../../hooks/useTransaction';
+import { formatTime } from '../../common/helpers/formateTime';
 
 export const Account = () => {
   const theme = useTheme();
   const { accountId } = useParams();
   const { getAccountById } = useAccounts();
+  const { accessToken } = useAuthUser();
   const [showAccountDetails, setShowAccountDetails] = useState(false);
   const account = getAccountById(accountId);
 
@@ -31,15 +35,28 @@ export const Account = () => {
   const date = new Date();
   const [selectedMonth, setSelectedMonth] = useState({
     name: date.toLocaleString('default', { month: 'long' }),
-    month: date.getMonth(),
+    month: date.getMonth() + 1,
     year: date.getFullYear(),
   });
   const [dates, setDates] = useState([]);
   useEffect(() => {
     if (selectedMonth.month !== undefined && selectedMonth.year !== undefined) {
-      setDates(getDatesForMonth(selectedMonth.month, selectedMonth.year));
+      const dates = getDatesForMonth(
+        selectedMonth.month - 1,
+        selectedMonth.year
+      );
+      setDates(dates);
     }
   }, [selectedMonth]);
+
+  const { transactions, isLoading: transactionsIsLoading } = useTransactions(
+    accessToken,
+    accountId,
+    selectedMonth.month,
+    selectedMonth.year
+  );
+
+  console.log('transactionsIsLoading', transactionsIsLoading);
 
   return (
     <PageLayout linkText="Accounts" linkLocation={'/accounts'}>
@@ -82,32 +99,61 @@ export const Account = () => {
           ]}
         />
       </Card>
-      <GroupContent>
-        {[...dates].reverse().map((date, index) => (
-          <>
-            <DaySeparator
-              key={index}
-              date={date.toLocaleDateString('en-GB', {
-                // weekday: 'short',
-                day: '2-digit',
-                month: 'short',
-              })}
-            />
-            {/* to be replaced with api data */}
-            <Card>
-              <Transaction category="bills" />
-              <HR />
-              <Transaction category="shopping" />
-              <HR />
-              <Transaction category="groceries" />
-              <HR />
-              <Transaction category="groceries" />
-              <HR />
-              <Transaction category="entertainment" />
-            </Card>
-          </>
-        ))}
-      </GroupContent>
+      {transactionsIsLoading && <Text>Loading transactions...</Text>}
+      {transactions.length > 0 ? (
+        [...dates].reverse().map((date, index) => {
+          // Convert date to a string in the format 'yyyy-mm-dd'
+          const dateString = date.toISOString().split('T')[0];
+
+          // Filter transactions that occurred on this date
+          const transactionsOnThisDate = transactions.filter((transaction) => {
+            // Convert transaction.createdAt to a string in the format 'yyyy-mm-dd'
+            const transactionDate = new Date(transaction.createdAt);
+            const utcTransactionDate = new Date(
+              Date.UTC(
+                transactionDate.getUTCFullYear(),
+                transactionDate.getUTCMonth(),
+                transactionDate.getUTCDate()
+              )
+            )
+              .toISOString()
+              .split('T')[0];
+            return utcTransactionDate === dateString;
+          });
+
+          // If there are no transactions on this date, don't render anything
+          if (transactionsOnThisDate.length === 0) {
+            return null;
+          }
+
+          return (
+            <GroupContent key={index}>
+              <DaySeparator
+                date={date.toLocaleDateString('en-GB', {
+                  day: '2-digit',
+                  month: 'short',
+                  timeZone: 'UTC',
+                })}
+              />
+              <Card>
+                {transactionsOnThisDate.map((transaction, index) => (
+                  <React.Fragment key={transaction._id}>
+                    <Transaction
+                      category={transaction.category}
+                      vendor={transaction.vendor}
+                      time={formatTime(transaction.createdAt)}
+                      amount={transaction.amount}
+                    />
+                    {index < transactionsOnThisDate.length - 1 && <HR />}
+                  </React.Fragment>
+                ))}
+              </Card>
+            </GroupContent>
+          );
+        })
+      ) : (
+        <Text>No transactions found</Text>
+      )}
     </PageLayout>
   );
 };

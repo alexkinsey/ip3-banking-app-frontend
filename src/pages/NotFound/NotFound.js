@@ -12,7 +12,8 @@ import { Spacer } from '../../components/ContentLayout/Spacer';
 import { GroupContent } from '../../components/ContentLayout/GroupContent';
 
 // Assets
-import { ReactComponent as OopsImg } from '../../common/assets/oops.svg';
+// import { ReactComponent as OopsImg } from '../../common/assets/oops.svg';
+import OopsImg from '../../common/assets/oops.svg';
 
 export const NotFound = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export const NotFound = () => {
   };
   return (
     <PageLayout>
-      <OopsImg style={{ width: '100%', height: '250px' }} />
+      <img src={OopsImg} style={{ width: '100%', height: '250px' }} alt="404" />
       <Heading>Oops, this page is all tangled up!</Heading>
       <Text>
         We're sorry, but the page you're looking for doesn't seem to exist. You

@@ -37,6 +37,7 @@ export const Transaction = ({
   amount = '-10.99',
   category = 'bills',
 }) => {
+  category = category.toLowerCase();
   const formattedAmount =
     Number(amount) < 0 ? `-£${Math.abs(amount)}` : `£${amount}`;
 
