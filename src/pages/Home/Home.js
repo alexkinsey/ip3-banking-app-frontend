@@ -54,7 +54,7 @@ export const Home = () => {
 
   const { transactions, isLoading: transactionsIsLoading } = useTransactions(
     accessToken,
-    accountsData[0]._id,
+    accountsData?.[0]?._id,
     today.getMonth() + 1,
     today.getFullYear()
   );
@@ -73,11 +73,9 @@ export const Home = () => {
 
   return (
     <PageLayout>
-      {/* <Card> */}
       <Heading>
         Welcome back, <br /> {customerData?.forename}
       </Heading>
-      {/* </Card> */}
 
       <GroupContent>
         <Heading size={5}>Quick links</Heading>
@@ -98,41 +96,47 @@ export const Home = () => {
         <Link location="/accounts">View all accounts</Link>
       </GroupContent>
 
-      <GroupContent>
-        <Heading size={5}>Your money</Heading>
-        {transactionsIsLoading ? (
-          <Text>Loading...</Text>
-        ) : (
-          todayTransactions.length > 0 && (
-            <Card>
-              <Heading size={2}>Today at a glance</Heading>
-              <Text>
-                So far you have spent <strong>£{totalSpentToday}</strong> today
-              </Text>
-              {todayTransactions.map((transaction, index) => (
-                <React.Fragment key={transaction._id}>
-                  <Transaction
-                    category={transaction.category}
-                    vendor={transaction.vendor}
-                    time={formatTime(transaction.createdAt)}
-                    amount={transaction.amount}
-                  />
-                  {index < todayTransactions.length - 1 && <HR />}
-                </React.Fragment>
-              ))}
-            </Card>
-          )
-        )}
-        <Card>
-          <Heading size={2}>June overview</Heading>
-          <Text>
-            So far you this month you have spent <br />{' '}
-            <strong>£{totalSpentMonth}</strong>
-          </Text>
-          <Heading size={3}>Trends in your spending</Heading>
-          <ExpensesBars expenses={topCategories} />
-        </Card>
-      </GroupContent>
+      {todayTransactions.length > 0 ||
+        (monthTransactions.length > 0 && (
+          <GroupContent>
+            <Heading size={5}>Your money</Heading>
+            {transactionsIsLoading ? (
+              <Text>Loading...</Text>
+            ) : (
+              todayTransactions.length > 0 && (
+                <Card>
+                  <Heading size={2}>Today at a glance</Heading>
+                  <Text>
+                    So far you have spent <strong>£{totalSpentToday}</strong>{' '}
+                    today
+                  </Text>
+                  {todayTransactions.map((transaction, index) => (
+                    <React.Fragment key={transaction._id}>
+                      <Transaction
+                        category={transaction.category}
+                        vendor={transaction.vendor}
+                        time={formatTime(transaction.createdAt)}
+                        amount={transaction.amount}
+                      />
+                      {index < todayTransactions.length - 1 && <HR />}
+                    </React.Fragment>
+                  ))}
+                </Card>
+              )
+            )}
+            {monthTransactions.length > 0 && (
+              <Card>
+                <Heading size={2}>June overview</Heading>
+                <Text>
+                  So far you this month you have spent <br />{' '}
+                  <strong>£{totalSpentMonth}</strong>
+                </Text>
+                <Heading size={3}>Trends in your spending</Heading>
+                <ExpensesBars expenses={topCategories} />
+              </Card>
+            )}
+          </GroupContent>
+        ))}
     </PageLayout>
   );
 };
