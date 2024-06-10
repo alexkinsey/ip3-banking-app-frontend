@@ -7,6 +7,8 @@ import { useAccounts } from '../../hooks/useAccounts';
 import { useAuthUser } from '../../hooks/useAuthUser';
 import { useTheme } from 'styled-components';
 import { getDatesForMonth } from '../../common/helpers/getDatesForMonth';
+import { useTransactions } from '../../hooks/useTransaction';
+import { formatTime } from '../../common/helpers/formateTime';
 
 // Components and styles
 import { PageLayout } from '../../components/PageLayout/PageLayout';
@@ -18,10 +20,10 @@ import { MonthPicker } from '../../components/MonthPicker/MonthPicker';
 import { ExpensesBars } from '../../components/ExpensesBars/ExpensesBars';
 import { DaySeparator } from '../../components/DaySeparator/DaySeparator';
 import { GroupContent } from '../../components/ContentLayout/GroupContent';
-import { AccountDetailsContainer, InfoIcon } from './Account.style';
 import { Transaction } from '../../components/Transaction/Transaction';
-import { useTransactions } from '../../hooks/useTransaction';
-import { formatTime } from '../../common/helpers/formateTime';
+
+// Styles
+import { AccountDetailsContainer, InfoIcon } from './Account.style';
 
 export const Account = () => {
   const theme = useTheme();

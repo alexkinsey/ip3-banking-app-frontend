@@ -27,6 +27,7 @@ import {
   calculateTotalSpent,
   filterTransactions,
 } from './helpers/homeHelper';
+
 // Styled Components
 import { useTheme } from 'styled-components';
 
