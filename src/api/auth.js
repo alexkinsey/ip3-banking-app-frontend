@@ -3,7 +3,7 @@ import { setSessionData } from '../common/helpers/sessionHandlers';
 
 export const login = async (email, password) => {
   try {
-    const response = await axios.post('http://localhost:3500/auth/login', {
+    const response = await axios.post('https://localhost:3500/auth/login', {
       email,
       password,
     });
