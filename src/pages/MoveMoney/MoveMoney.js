@@ -33,7 +33,7 @@ export const MoveMoney = () => {
         <Text weight="medium">From</Text>
         <TransferLocationContainer $from>
           <Heading color="white" size={2}>
-            {accounts.fromAccount.accountType}
+            {accounts.fromAccount.accountType} Account
           </Heading>
           <Text color="white" weight="medium">
             {amount || amount > 0
@@ -56,7 +56,7 @@ export const MoveMoney = () => {
         <Text weight="medium">To</Text>
         <TransferLocationContainer>
           <Heading color="white" size={2}>
-            {accounts.toAccount.accountType}
+            {accounts.toAccount.accountType} Account
           </Heading>
           <Text color="white" weight="medium">
             {amount || amount > 0
