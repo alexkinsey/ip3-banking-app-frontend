@@ -20,6 +20,9 @@ import {
 import { Text } from '../Text/Text';
 import styled from 'styled-components';
 
+// Helpers
+import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
+
 // Mapping of categories to icons
 const categoryIcons = {
   groceries: FaShoppingBasket,
@@ -37,7 +40,7 @@ export const Transaction = ({
   amount = '-10.99',
   category = 'bills',
 }) => {
-  category = category.toLowerCase();
+  category = formatToCamelCase(category);
   const formattedAmount =
     Number(amount) < 0 ? `-£${Math.abs(amount)}` : `£${amount}`;
 

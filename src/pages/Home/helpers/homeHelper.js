@@ -1,4 +1,4 @@
-import { formatToCamelCase } from '../../../common/helpers/formateToCamelCase';
+import { formatToCamelCase } from '../../../common/helpers/formatToCamelCase';
 
 // Helper function to calculate totals
 export const calculateTotals = (transactions) => {
