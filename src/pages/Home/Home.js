@@ -69,16 +69,15 @@ export const Home = () => {
   const totalSpentMonth = calculateTotalSpent(monthTransactions);
 
   const todayTransactions = filterTransactions(transactions, utcToday);
-  console.log('first', transactions, utcToday);
   const totalSpentToday = calculateTotalSpent(todayTransactions);
 
   return (
     <PageLayout>
-      <Card>
-        <Heading>
-          Welcome back, <br /> {customerData?.forename}
-        </Heading>
-      </Card>
+      {/* <Card> */}
+      <Heading>
+        Welcome back, <br /> {customerData?.forename}
+      </Heading>
+      {/* </Card> */}
 
       <GroupContent>
         <Heading size={5}>Quick links</Heading>

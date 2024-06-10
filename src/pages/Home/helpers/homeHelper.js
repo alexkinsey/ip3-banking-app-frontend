@@ -44,7 +44,6 @@ export const formatCategories = (totals, theme) => {
 export const filterTransactionsByMonth = (transactions, month, year) => {
   return transactions.filter((transaction) => {
     const transactionDate = new Date(transaction.createdAt);
-    console.log('second', transactionDate);
     return (
       transactionDate.getUTCFullYear() === year &&
       transactionDate.getUTCMonth() === month

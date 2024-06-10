@@ -58,8 +58,6 @@ export const Account = () => {
     selectedMonth.year
   );
 
-  console.log('transactionsIsLoading', transactionsIsLoading);
-
   return (
     <PageLayout linkText="Accounts" linkLocation={'/accounts'}>
       <Card style={{ position: 'relative' }}>
