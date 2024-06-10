@@ -2,6 +2,10 @@ import axios from 'axios';
 
 export const getCustomer = async (username, authCode) => {
   try {
+    console.log(
+      'API FETCH',
+      `https://localhost:5001/api/customers/${username}`
+    );
     const response = await axios.get(
       `https://localhost:5001/api/customers/${username}`,
       {
@@ -10,7 +14,7 @@ export const getCustomer = async (username, authCode) => {
         },
       }
     );
-    console.log('getCustomer', response.data);
+    console.log('API RESPONSE getCustomer', response.data);
     return response.data;
   } catch (error) {
     console.error('Error retrieving customer:', error);
