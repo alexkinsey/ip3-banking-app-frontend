@@ -88,12 +88,20 @@ export const Account = () => {
           expenses={[
             {
               label: 'Income',
-              value: Math.floor(Math.random() * 10001),
+              value: transactions.reduce(
+                (acc, transaction) =>
+                  transaction.amount > 0 ? acc + transaction.amount : acc,
+                0
+              ),
               color: theme.colors.success,
             },
             {
               label: 'Spent',
-              value: Math.floor(Math.random() * 10001),
+              value: transactions.reduce(
+                (acc, transaction) =>
+                  transaction.amount < 0 ? acc + transaction.amount : acc,
+                0
+              ),
               color: theme.colors.warning,
             },
           ]}
@@ -134,6 +142,10 @@ export const Account = () => {
                   month: 'short',
                   timeZone: 'UTC',
                 })}
+                total={transactionsOnThisDate.reduce(
+                  (acc, transaction) => acc + transaction.amount,
+                  0
+                )}
               />
               <Card>
                 {transactionsOnThisDate.map((transaction, index) => (
