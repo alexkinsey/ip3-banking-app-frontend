@@ -109,8 +109,9 @@ export const Account = () => {
           ]}
         />
       </Card>
-      {transactionsIsLoading && <Text>Loading transactions...</Text>}
-      {transactions.length > 0 ? (
+      {transactionsIsLoading ? (
+        <Text>Loading transactions...</Text>
+      ) : transactions.length > 0 ? (
         [...dates].reverse().map((date, index) => {
           // Convert date to a string in the format 'yyyy-mm-dd'
           const dateString = date.toISOString().split('T')[0];
