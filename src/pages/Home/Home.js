@@ -71,10 +71,6 @@ export const Home = () => {
   const todayTransactions = filterTransactions(transactions, utcToday);
   const totalSpentToday = calculateTotalSpent(todayTransactions);
 
-  console.log('utcToday', utcToday);
-  console.log('todayTransactions', todayTransactions);
-  console.log('monthTransactions', monthTransactions);
-
   return (
     <PageLayout>
       <Heading>

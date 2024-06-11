@@ -113,7 +113,6 @@ export const Account = () => {
         [...dates].reverse().map((date, index) => {
           // Convert date to a string in the format 'yyyy-mm-dd'
           const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-          console.log('dateString', dateString);
 
           // Filter transactions that occurred on this date
           const transactionsOnThisDate = transactions.filter((transaction) => {
@@ -122,8 +121,6 @@ export const Account = () => {
             const utcTransactionDate = `${transactionDate.getFullYear()}-${String(transactionDate.getMonth() + 1).padStart(2, '0')}-${String(transactionDate.getDate()).padStart(2, '0')}`;
             return utcTransactionDate === dateString;
           });
-
-          console.log('transactionsOnThisDate', transactionsOnThisDate);
 
           // If there are no transactions on this date, don't render anything
           if (transactionsOnThisDate.length === 0) {
