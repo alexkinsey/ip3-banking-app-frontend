@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { setSessionData } from '../common/helpers/sessionHandlers';
+import {
+  removeSessionData,
+  setSessionData,
+} from '../common/helpers/sessionHandlers';
 
 export const login = async (email, password) => {
   try {
@@ -13,6 +16,7 @@ export const login = async (email, password) => {
     return response.data;
   } catch (error) {
     console.error('Login failed:', error);
+    removeSessionData('loginResponse');
     throw new Error('Login failed!');
   }
 };

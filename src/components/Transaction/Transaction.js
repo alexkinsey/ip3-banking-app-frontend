@@ -14,11 +14,11 @@ import { LuPopcorn } from 'react-icons/lu';
 import {
   IconBox,
   IconVendorPriceContainer,
+  StyledIcon,
   TransactionContainer,
   VendorPriceContainer,
 } from './Transaction.style';
 import { Text } from '../Text/Text';
-import styled from 'styled-components';
 
 // Helpers
 import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
@@ -43,16 +43,14 @@ export const Transaction = ({
 }) => {
   category = formatToCamelCase(category);
 
-  const CategoryIcon = styled(categoryIcons[category] || FaFileInvoiceDollar)`
-    color: ${({ theme }) => theme.colors.white};
-    font-size: 24px;
-  `;
+  // Get the icon component for the category
+  const IconComponent = categoryIcons[category] || FaFileInvoiceDollar;
 
   return (
     <TransactionContainer>
       <IconVendorPriceContainer>
         <IconBox $category={category}>
-          <CategoryIcon />
+          <StyledIcon as={IconComponent} />
         </IconBox>
         <VendorPriceContainer>
           <Text>{vendor}</Text>

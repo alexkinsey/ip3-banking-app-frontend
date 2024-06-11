@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { removeSessionData } from '../common/helpers/sessionHandlers';
 
 export const getCustomer = async (username, authCode) => {
   try {
@@ -18,6 +19,7 @@ export const getCustomer = async (username, authCode) => {
     return response.data;
   } catch (error) {
     console.error('Error retrieving customer:', error);
+    removeSessionData('loginResponse');
     throw error;
   }
 };

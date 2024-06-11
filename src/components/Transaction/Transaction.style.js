@@ -27,3 +27,8 @@ export const VendorPriceContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
+
+export const StyledIcon = styled.i`
+  color: ${({ theme }) => theme.colors.white};
+  font-size: 24px;
+`;

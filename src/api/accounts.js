@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { removeSessionData } from '../common/helpers/sessionHandlers';
 
 export const getAccounts = async (userId, authCode) => {
   try {
@@ -15,6 +16,7 @@ export const getAccounts = async (userId, authCode) => {
     return response.data;
   } catch (error) {
     console.error('Error retrieving accounts:', error);
+    removeSessionData('loginResponse');
     throw error;
   }
 };
