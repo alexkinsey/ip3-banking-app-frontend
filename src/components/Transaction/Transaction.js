@@ -25,7 +25,7 @@ import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
 
 // Mapping of categories to icons
 const categoryIcons = {
-  groceries: FaShoppingBasket,
+  food: FaShoppingBasket,
   eatingOut: FaUtensils,
   travel: FaPlane,
   entertainment: LuPopcorn,

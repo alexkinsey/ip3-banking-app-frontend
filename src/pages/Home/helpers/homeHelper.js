@@ -33,6 +33,7 @@ export const formatCategories = (totals, theme) => {
   return Object.entries(totals)
     .sort((a, b) => b[1] - a[1])
     .slice(0, 5)
+    .filter(([category]) => category.toLowerCase() !== 'income')
     .map(([category, total]) => ({
       label: category,
       value: total,
@@ -53,8 +54,7 @@ export const filterTransactionsByMonth = (transactions, month, year) => {
 
 // Helper function to calculate total spent
 export const calculateTotalSpent = (transactions) => {
-  return transactions.reduce(
-    (total, transaction) => total + transaction.amount,
-    0
-  );
+  return transactions
+    .filter((transaction) => transaction.category.toLowerCase() !== 'income')
+    .reduce((total, transaction) => total + Math.abs(transaction.amount), 0);
 };

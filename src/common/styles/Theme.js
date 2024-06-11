@@ -18,7 +18,7 @@ export const theme = {
     alert: '#EFBE41',
     success: '#72B73C',
     category: {
-      groceries: '#789982',
+      food: '#789982',
       eatingOut: '#E5A75D',
       travel: '#FBA100',
       entertainment: '#895DE5',

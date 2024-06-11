@@ -128,7 +128,7 @@ export const Home = () => {
               <Card>
                 <Heading size={2}>June overview</Heading>
                 <Text>
-                  So far you this month you have spent <br />{' '}
+                  So far you this month you have spent a total of{' '}
                   <strong>£{totalSpentMonth}</strong>
                 </Text>
                 <Heading size={3}>Trends in your spending</Heading>
