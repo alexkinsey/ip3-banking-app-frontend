@@ -112,23 +112,18 @@ export const Account = () => {
       ) : transactions.length > 0 ? (
         [...dates].reverse().map((date, index) => {
           // Convert date to a string in the format 'yyyy-mm-dd'
-          const dateString = date.toISOString().split('T')[0];
+          const dateString = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+          console.log('dateString', dateString);
 
           // Filter transactions that occurred on this date
           const transactionsOnThisDate = transactions.filter((transaction) => {
             // Convert transaction.createdAt to a string in the format 'yyyy-mm-dd'
             const transactionDate = new Date(transaction.createdAt);
-            const utcTransactionDate = new Date(
-              Date.UTC(
-                transactionDate.getUTCFullYear(),
-                transactionDate.getUTCMonth(),
-                transactionDate.getUTCDate()
-              )
-            )
-              .toISOString()
-              .split('T')[0];
+            const utcTransactionDate = `${transactionDate.getFullYear()}-${String(transactionDate.getMonth() + 1).padStart(2, '0')}-${String(transactionDate.getDate()).padStart(2, '0')}`;
             return utcTransactionDate === dateString;
           });
+
+          console.log('transactionsOnThisDate', transactionsOnThisDate);
 
           // If there are no transactions on this date, don't render anything
           if (transactionsOnThisDate.length === 0) {
@@ -141,7 +136,6 @@ export const Account = () => {
                 date={date.toLocaleDateString('en-GB', {
                   day: '2-digit',
                   month: 'short',
-                  timeZone: 'UTC',
                 })}
                 total={transactionsOnThisDate.reduce(
                   (acc, transaction) => acc + transaction.amount,

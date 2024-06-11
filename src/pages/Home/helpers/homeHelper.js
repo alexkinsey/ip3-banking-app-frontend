@@ -15,6 +15,7 @@ export const calculateTotals = (transactions) => {
 export const filterTransactions = (transactions, date) => {
   return transactions.filter((transaction) => {
     const transactionDate = new Date(transaction.createdAt);
+    console.log('transactionDate', transactionDate);
     const utcTransactionDate = new Date(
       Date.UTC(
         transactionDate.getUTCFullYear(),
@@ -24,6 +25,7 @@ export const filterTransactions = (transactions, date) => {
     )
       .toISOString()
       .split('T')[0];
+    console.log('utcTransactionDate', utcTransactionDate);
     return utcTransactionDate === date;
   });
 };

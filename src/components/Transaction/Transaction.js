@@ -22,6 +22,7 @@ import styled from 'styled-components';
 
 // Helpers
 import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
+import { formatCurrency } from '../../common/helpers/formatCurrency';
 
 // Mapping of categories to icons
 const categoryIcons = {
@@ -41,8 +42,6 @@ export const Transaction = ({
   category = 'bills',
 }) => {
   category = formatToCamelCase(category);
-  const formattedAmount =
-    Number(amount) < 0 ? `-£${Math.abs(amount)}` : `£${amount}`;
 
   const CategoryIcon = styled(categoryIcons[category] || FaFileInvoiceDollar)`
     color: ${({ theme }) => theme.colors.white};
@@ -62,7 +61,7 @@ export const Transaction = ({
           </Text>
         </VendorPriceContainer>
       </IconVendorPriceContainer>
-      <Text>{formattedAmount}</Text>
+      <Text>{formatCurrency(amount)}</Text>
     </TransactionContainer>
   );
 };
