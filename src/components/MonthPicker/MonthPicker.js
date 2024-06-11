@@ -115,6 +115,6 @@ export const MonthPicker = ({ startDate, onMonthChange }) => {
 };
 
 MonthPicker.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
+  startDate: PropTypes.string.isRequired,
   onMonthChange: PropTypes.func.isRequired,
 };
