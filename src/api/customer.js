@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { removeSessionData } from '../common/helpers/sessionHandlers';
 
-export const getCustomer = async (username, authCode) => {
+export const getCustomer = async (username, accessToken) => {
   try {
     console.log(
       'API FETCH',
@@ -11,7 +11,7 @@ export const getCustomer = async (username, authCode) => {
       `https://localhost:5001/api/customers/${username}`,
       {
         headers: {
-          'x-auth-token': `${authCode}`,
+          'x-auth-token': `${accessToken}`,
         },
       }
     );

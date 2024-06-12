@@ -54,7 +54,7 @@ export const Home = () => {
 
   const { transactions, isLoading: transactionsIsLoading } = useTransactions(
     accessToken,
-    accountsData[0]._id,
+    accountsData?.[0]?._id,
     today.getMonth() + 1,
     today.getFullYear()
   );

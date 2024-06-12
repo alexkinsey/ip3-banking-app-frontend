@@ -4,6 +4,7 @@ export const TransactionContainer = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  cursor: pointer;
 `;
 
 export const IconVendorPriceContainer = styled.div`
@@ -12,23 +13,7 @@ export const IconVendorPriceContainer = styled.div`
   gap: 1rem;
 `;
 
-export const IconBox = styled.div`
-  background-color: ${({ theme, $category }) =>
-    theme.colors.category[$category] || theme.colors.primary};
-  aspect-ratio: 1;
-  height: 52px;
-  border-radius: 25%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 export const VendorPriceContainer = styled.div`
   display: flex;
   flex-direction: column;
-`;
-
-export const StyledIcon = styled.i`
-  color: ${({ theme }) => theme.colors.white};
-  font-size: 24px;
 `;

@@ -26,6 +26,7 @@ export const theme = {
       shopping: '#B55795',
       bills: '#4A6D8C',
       internalPayment: '#696969',
+      income: '#42A31D',
     },
   },
   fonts: {

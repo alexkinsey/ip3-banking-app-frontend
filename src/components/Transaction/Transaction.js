@@ -1,20 +1,6 @@
-// React Icons
-import {
-  FaShoppingBasket,
-  FaUtensils,
-  FaPlane,
-  FaHeart,
-  FaFileInvoice,
-  FaShoppingCart,
-  FaFileInvoiceDollar,
-} from 'react-icons/fa';
-import { LuPopcorn } from 'react-icons/lu';
-
 // Styled Components
 import {
-  IconBox,
   IconVendorPriceContainer,
-  StyledIcon,
   TransactionContainer,
   VendorPriceContainer,
 } from './Transaction.style';
@@ -24,17 +10,7 @@ import { Text } from '../Text/Text';
 import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
 import { formatCurrency } from '../../common/helpers/formatCurrency';
 import { useNavigate } from 'react-router-dom';
-
-// Mapping of categories to icons
-const categoryIcons = {
-  food: FaShoppingBasket,
-  eatingOut: FaUtensils,
-  travel: FaPlane,
-  entertainment: LuPopcorn,
-  health: FaHeart,
-  shopping: FaShoppingCart,
-  bills: FaFileInvoice,
-};
+import { CategoryIcon } from '../CategoryIcon/CategoryIcon';
 
 export const Transaction = ({
   vendor = 'Vendor Name',
@@ -46,15 +22,10 @@ export const Transaction = ({
   const navigate = useNavigate();
   category = formatToCamelCase(category);
 
-  // Get the icon component for the category
-  const IconComponent = categoryIcons[category] || FaFileInvoiceDollar;
-
   return (
     <TransactionContainer onClick={() => navigate(`transaction/${id}`)}>
       <IconVendorPriceContainer>
-        <IconBox $category={category}>
-          <StyledIcon as={IconComponent} />
-        </IconBox>
+        <CategoryIcon category={category} />
         <VendorPriceContainer>
           <Text>{vendor}</Text>
           <Text size={5} color="grey">
