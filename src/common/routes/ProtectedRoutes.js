@@ -14,12 +14,12 @@ export const ProtectedRoute = ({ element }) => {
   const { isLoading: isCustomerLoading } = useCustomer();
   const { isLoading: isAccountsLoading } = useAccounts();
 
-  if (isAuthUserLoading || isCustomerLoading || isAccountsLoading) {
-    return <Loading />;
-  }
-
   if (!accessToken) {
     return <Navigate to="/login" replace />;
+  }
+
+  if (isAuthUserLoading || isCustomerLoading || isAccountsLoading) {
+    return <Loading />;
   }
 
   return element;
