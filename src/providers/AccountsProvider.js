@@ -13,25 +13,35 @@ export const AccountsProvider = ({ children }) => {
 
   // Fetch accounts data when the user is loaded
   useEffect(() => {
+    let isMounted = true; // flag to track component mount status
+
     const fetchAccountsData = async () => {
-      setIsLoading(true);
       if (!accessToken) {
-        setIsLoading(false);
         return;
       }
       try {
         const data = await getAccounts(user?.id, accessToken);
-        setAccountsData(data);
+        if (isMounted) {
+          setAccountsData(data);
+          setIsLoading(false);
+        }
       } catch (error) {
         console.error('Error fetching accounts data:', error);
-      } finally {
-        setIsLoading(false);
+        if (isMounted) {
+          setIsLoading(false);
+        }
       }
     };
-    if (!isAuthUserLoading && !accountsData) {
+
+    if (!isAuthUserLoading) {
+      setIsLoading(true);
       fetchAccountsData();
     }
-  }, [isAuthUserLoading, accountsData, accessToken, user?.id]);
+
+    return () => {
+      isMounted = false; // update flag when component unmounts
+    };
+  }, [isAuthUserLoading, accessToken, user?.id]);
 
   return (
     <AccountsContext.Provider

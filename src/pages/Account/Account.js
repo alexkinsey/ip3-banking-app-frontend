@@ -143,6 +143,7 @@ export const Account = () => {
                 {transactionsOnThisDate.map((transaction, index) => (
                   <React.Fragment key={transaction._id}>
                     <Transaction
+                      id={transaction._id}
                       category={transaction.category}
                       vendor={transaction.vendor}
                       time={formatTime(transaction.createdAt)}

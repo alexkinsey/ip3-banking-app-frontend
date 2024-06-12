@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { removeSessionData } from '../common/helpers/sessionHandlers';
 
-export const getAccounts = async (userId, authCode) => {
+export const getAccounts = async (userId, accessToken) => {
   try {
     console.log('API FETCH', `https://localhost:5001/api/accounts/${userId}`);
     const response = await axios.get(
       `https://localhost:5001/api/accounts/${userId}`,
       {
         headers: {
-          'x-auth-token': `${authCode}`,
+          'x-auth-token': `${accessToken}`,
         },
       }
     );
