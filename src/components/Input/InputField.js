@@ -83,7 +83,7 @@ export const InputField = ({
   const handleScroll = (e) => {
     const inputEl = e.target;
     const wrapperEl = inputEl.parentElement;
-    const threshold = 2; // Adjust this value as needed
+    const threshold = 4; // Adjust this value as needed
 
     if (
       inputEl.scrollLeft >=

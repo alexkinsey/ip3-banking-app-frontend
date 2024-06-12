@@ -17,6 +17,7 @@ export const getAccounts = async (userId, authCode) => {
   } catch (error) {
     console.error('Error retrieving accounts:', error);
     removeSessionData('loginResponse');
+    window.location.replace('/login');
     throw error;
   }
 };
