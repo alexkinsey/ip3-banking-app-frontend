@@ -18,6 +18,7 @@ import { Login } from './pages/Login/Login';
 
 // Routes
 import { ProtectedRoute } from './common/routes/ProtectedRoutes';
+import { Transaction } from './pages/Transaction/Transaction';
 
 export const AppRoutes = () => {
   let location = useLocation();
@@ -36,6 +37,10 @@ export const AppRoutes = () => {
           <Route
             path="/accounts/:accountId"
             element={<ProtectedRoute element={<Account />} />}
+          />
+          <Route
+            path="/accounts/:accountId/transaction/:transactionId"
+            element={<ProtectedRoute element={<Transaction />} />}
           />
           <Route
             path="/transfer-money"

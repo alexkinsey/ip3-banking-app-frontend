@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { removeSessionData } from '../common/helpers/sessionHandlers';
 
 export const getTransactionsByMonthYear = async (
   authCode,
@@ -23,6 +24,8 @@ export const getTransactionsByMonthYear = async (
     return response.data;
   } catch (error) {
     console.error('Error retrieving transactions for this account:', error);
+    // removeSessionData('loginResponse');
+    // window.location.replace('/login');
     throw error;
   }
 };

@@ -23,6 +23,7 @@ import { Text } from '../Text/Text';
 // Helpers
 import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
 import { formatCurrency } from '../../common/helpers/formatCurrency';
+import { useNavigate } from 'react-router-dom';
 
 // Mapping of categories to icons
 const categoryIcons = {
@@ -40,14 +41,16 @@ export const Transaction = ({
   time = '01:30pm',
   amount = '-10.99',
   category = 'bills',
+  id = '1',
 }) => {
+  const navigate = useNavigate();
   category = formatToCamelCase(category);
 
   // Get the icon component for the category
   const IconComponent = categoryIcons[category] || FaFileInvoiceDollar;
 
   return (
-    <TransactionContainer>
+    <TransactionContainer onClick={() => navigate(`transaction/${id}`)}>
       <IconVendorPriceContainer>
         <IconBox $category={category}>
           <StyledIcon as={IconComponent} />

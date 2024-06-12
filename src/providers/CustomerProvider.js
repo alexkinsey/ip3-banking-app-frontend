@@ -14,9 +14,7 @@ export const CustomerProvider = ({ children }) => {
   // Fetch customer data when the user is loaded
   useEffect(() => {
     const fetchCustomerData = async () => {
-      setIsLoading(true);
       if (!accessToken) {
-        setIsLoading(false);
         return;
       }
       try {
@@ -29,6 +27,7 @@ export const CustomerProvider = ({ children }) => {
       }
     };
     if (!isAuthUserLoading && !customerData) {
+      setIsLoading(true);
       fetchCustomerData();
     }
   }, [isAuthUserLoading, customerData, accessToken, user?.username]);
