@@ -20,6 +20,7 @@ export const getCustomer = async (username, authCode) => {
   } catch (error) {
     console.error('Error retrieving customer:', error);
     removeSessionData('loginResponse');
+    window.location.replace('/login');
     throw error;
   }
 };
