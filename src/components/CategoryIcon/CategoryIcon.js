@@ -24,7 +24,7 @@ const categoryIcons = {
 };
 
 export const CategoryIcon = ({
-  category,
+  category = 'internalPayment',
   size = 52,
   glow = false,
   className,
