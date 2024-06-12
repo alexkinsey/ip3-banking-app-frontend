@@ -7,6 +7,7 @@ import styled from 'styled-components';
 
 // Components
 import { Text } from '../Text/Text';
+import { formatCurrency } from '../../common/helpers/formatCurrency';
 
 const DaySeparatorContainer = styled.div`
   display: flex;
@@ -26,7 +27,7 @@ export const DaySeparator = ({ date, total }) => {
         {date}
       </Text>
       <Text color="white" size={5}>
-        £{total}
+        {formatCurrency(total)}
       </Text>
     </DaySeparatorContainer>
   );

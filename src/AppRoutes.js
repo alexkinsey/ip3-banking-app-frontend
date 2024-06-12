@@ -27,7 +27,6 @@ export const AppRoutes = () => {
     <TransitionGroup>
       <CSSTransition key={location.key} classNames="fade" timeout={400}>
         <Routes location={location}>
-          <Route path="*" element={<NotFound />} />
           <Route path="/login" element={<Login />} />
           <Route path="/" element={<ProtectedRoute element={<Home />} />} />
           <Route
@@ -54,6 +53,7 @@ export const AppRoutes = () => {
             path="/transfer-money/pay-someone"
             element={<ProtectedRoute element={<PaySomeone />} />}
           />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>

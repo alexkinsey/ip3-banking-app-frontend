@@ -14,9 +14,19 @@ import { ExpensesBars } from '../../components/ExpensesBars/ExpensesBars';
 import { Transaction } from '../../components/Transaction/Transaction';
 import { HR } from '../../components/HR/HR';
 
-// Hooks
+// Hooks and helpers
 import { useCustomer } from '../../hooks/useCustomer';
 import { useAccounts } from '../../hooks/useAccounts';
+import { useTransactions } from '../../hooks/useTransaction';
+import { useAuthUser } from '../../hooks/useAuthUser';
+import { formatTime } from '../../common/helpers/formateTime';
+import {
+  filterTransactionsByMonth,
+  calculateTotals,
+  formatCategories,
+  calculateTotalSpent,
+  filterTransactions,
+} from './helpers/homeHelper';
 
 // Styled Components
 import { useTheme } from 'styled-components';
@@ -28,16 +38,45 @@ import BankNoteSymbol from '../../common/assets/bank-note-symbol-x2.svg';
 export const Home = () => {
   const theme = useTheme();
   const navigate = useNavigate();
+  const { accessToken } = useAuthUser();
   const { customerData } = useCustomer();
   const { accountsData } = useAccounts();
 
+  const today = new Date();
+
+  const currentYear = today.getUTCFullYear();
+  const currentMonth = today.getUTCMonth();
+  const currentDate = today.getUTCDate();
+
+  const utcToday = new Date(Date.UTC(currentYear, currentMonth, currentDate))
+    .toISOString()
+    .split('T')[0];
+
+  const { transactions, isLoading: transactionsIsLoading } = useTransactions(
+    accessToken,
+    accountsData?.[0]?._id,
+    today.getMonth() + 1,
+    today.getFullYear()
+  );
+
+  const monthTransactions = filterTransactionsByMonth(
+    transactions,
+    currentMonth,
+    currentYear
+  );
+  const categoryTotals = calculateTotals(monthTransactions);
+  const topCategories = formatCategories(categoryTotals, theme);
+  const totalSpentMonth = calculateTotalSpent(monthTransactions);
+
+  const todayTransactions = filterTransactions(transactions, utcToday);
+  const totalSpentToday = calculateTotalSpent(todayTransactions);
+
   return (
     <PageLayout>
-      <Card>
-        <Heading>
-          Welcome back, <br /> {customerData?.forename}
-        </Heading>
-      </Card>
+      <Heading>
+        Welcome back, <br /> {customerData?.forename}
+      </Heading>
+
       <GroupContent>
         <Heading size={5}>Quick links</Heading>
         {accountsData &&
@@ -56,60 +95,47 @@ export const Home = () => {
           ))}
         <Link location="/accounts">View all accounts</Link>
       </GroupContent>
-      <GroupContent>
-        <Heading size={5}>Your money</Heading>
-        <Card>
-          <Heading size={2}>Today at a glance</Heading>
-          <Text>
-            So far you have spent <strong>£100</strong> today
-          </Text>
-          <Transaction category="bills" />
-          <HR />
-          <Transaction category="shopping" />
-          <HR />
-          <Transaction category="groceries" />
-          <HR />
-          <Transaction category="groceries" />
-          <HR />
-          <Transaction category="entertainment" />
-        </Card>
-        <Card>
-          <Heading size={2}>June overview</Heading>
-          <Text>
-            So far you this month you have spent <br /> <strong>£245</strong>
-          </Text>
-          <Heading size={3}>Trends in your spending</Heading>
-          <ExpensesBars
-            expenses={[
-              {
-                label: 'Shopping',
-                value: Math.floor(Math.random() * 10001),
-                color: theme.colors.category.shopping,
-              },
-              {
-                label: 'Entertainment',
-                value: Math.floor(Math.random() * 10001),
-                color: theme.colors.category.entertainment,
-              },
-              {
-                label: 'Eating out',
-                value: Math.floor(Math.random() * 10001),
-                color: theme.colors.category.eatingOut,
-              },
-              {
-                label: 'Groceries',
-                value: Math.floor(Math.random() * 10001),
-                color: theme.colors.category.groceries,
-              },
-              {
-                label: 'Bills',
-                value: Math.floor(Math.random() * 10001),
-                color: theme.colors.category.bills,
-              },
-            ]}
-          />
-        </Card>
-      </GroupContent>
+
+      {(todayTransactions.length > 0 || monthTransactions.length > 0) && (
+        <GroupContent>
+          <Heading size={5}>Your money</Heading>
+          {transactionsIsLoading ? (
+            <Text>Loading...</Text>
+          ) : (
+            todayTransactions.length > 0 && (
+              <Card>
+                <Heading size={2}>Today at a glance</Heading>
+                <Text>
+                  So far you have spent <strong>£{totalSpentToday}</strong>{' '}
+                  today
+                </Text>
+                {todayTransactions.map((transaction, index) => (
+                  <React.Fragment key={transaction._id}>
+                    <Transaction
+                      category={transaction.category}
+                      vendor={transaction.vendor}
+                      time={formatTime(transaction.createdAt)}
+                      amount={transaction.amount}
+                    />
+                    {index < todayTransactions.length - 1 && <HR />}
+                  </React.Fragment>
+                ))}
+              </Card>
+            )
+          )}
+          {monthTransactions.length > 0 && (
+            <Card>
+              <Heading size={2}>June overview</Heading>
+              <Text>
+                So far you this month you have spent a total of{' '}
+                <strong>£{totalSpentMonth}</strong>
+              </Text>
+              <Heading size={3}>Trends in your spending</Heading>
+              <ExpensesBars expenses={topCategories} />
+            </Card>
+          )}
+        </GroupContent>
+      )}
     </PageLayout>
   );
 };

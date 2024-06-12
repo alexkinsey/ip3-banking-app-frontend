@@ -14,15 +14,19 @@ import { LuPopcorn } from 'react-icons/lu';
 import {
   IconBox,
   IconVendorPriceContainer,
+  StyledIcon,
   TransactionContainer,
   VendorPriceContainer,
 } from './Transaction.style';
 import { Text } from '../Text/Text';
-import styled from 'styled-components';
+
+// Helpers
+import { formatToCamelCase } from '../../common/helpers/formatToCamelCase';
+import { formatCurrency } from '../../common/helpers/formatCurrency';
 
 // Mapping of categories to icons
 const categoryIcons = {
-  groceries: FaShoppingBasket,
+  food: FaShoppingBasket,
   eatingOut: FaUtensils,
   travel: FaPlane,
   entertainment: LuPopcorn,
@@ -37,19 +41,16 @@ export const Transaction = ({
   amount = '-10.99',
   category = 'bills',
 }) => {
-  const formattedAmount =
-    Number(amount) < 0 ? `-£${Math.abs(amount)}` : `£${amount}`;
+  category = formatToCamelCase(category);
 
-  const CategoryIcon = styled(categoryIcons[category] || FaFileInvoiceDollar)`
-    color: ${({ theme }) => theme.colors.white};
-    font-size: 24px;
-  `;
+  // Get the icon component for the category
+  const IconComponent = categoryIcons[category] || FaFileInvoiceDollar;
 
   return (
     <TransactionContainer>
       <IconVendorPriceContainer>
         <IconBox $category={category}>
-          <CategoryIcon />
+          <StyledIcon as={IconComponent} />
         </IconBox>
         <VendorPriceContainer>
           <Text>{vendor}</Text>
@@ -58,7 +59,7 @@ export const Transaction = ({
           </Text>
         </VendorPriceContainer>
       </IconVendorPriceContainer>
-      <Text>{formattedAmount}</Text>
+      <Text>{formatCurrency(amount)}</Text>
     </TransactionContainer>
   );
 };

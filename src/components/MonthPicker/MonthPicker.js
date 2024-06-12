@@ -88,7 +88,7 @@ export const MonthPicker = ({ startDate, onMonthChange }) => {
       'December',
     ];
     const { name, year } = monthList[activeIndex];
-    const month = months.indexOf(name);
+    const month = months.indexOf(name) + 1;
     onMonthChange({ name, month, year });
   }, [activeIndex, monthList, onMonthChange]);
 
@@ -115,6 +115,6 @@ export const MonthPicker = ({ startDate, onMonthChange }) => {
 };
 
 MonthPicker.propTypes = {
-  startDate: PropTypes.instanceOf(Date).isRequired,
+  startDate: PropTypes.string.isRequired,
   onMonthChange: PropTypes.func.isRequired,
 };

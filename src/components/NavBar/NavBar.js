@@ -81,7 +81,7 @@ export const NavBar = () => {
                 {!isLoading &&
                   accountsData?.map((account) => (
                     <Link
-                      key={account.id}
+                      key={account._id}
                       white
                       location={`/accounts/${account._id}`}
                     >

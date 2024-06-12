@@ -58,7 +58,7 @@ export const TransferMoney = () => {
       />
       <ActionCard
         icon={SquarePoundPersonSymbol}
-        content="Pay someone"
+        content="Make a payment"
         subContent="By bank transfer"
         onClick={actionCardPaySomeoneNavigate}
       />

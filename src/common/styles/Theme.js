@@ -18,13 +18,14 @@ export const theme = {
     alert: '#EFBE41',
     success: '#72B73C',
     category: {
-      groceries: '#789982',
+      food: '#789982',
       eatingOut: '#E5A75D',
       travel: '#FBA100',
       entertainment: '#895DE5',
       health: '#E57373',
       shopping: '#B55795',
       bills: '#4A6D8C',
+      internalPayment: '#696969',
     },
   },
   fonts: {
