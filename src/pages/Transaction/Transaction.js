@@ -37,8 +37,11 @@ export const Transaction = () => {
 
   console.log('transaction', transaction);
 
+  const backText = accountId ? 'Account' : 'Home';
+  const location = accountId ? `/accounts/${accountId}` : '/';
+
   return (
-    <PageLayout linkText="Back" linkLocation={`/accounts/${accountId}`}>
+    <PageLayout linkText={backText} linkLocation={location}>
       <IconTransactionContainer>
         <StyledCategoryIcon category={transaction.category} size={124} glow />
         <Heading displayAs={2} size={1}>

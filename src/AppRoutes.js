@@ -43,6 +43,10 @@ export const AppRoutes = () => {
             element={<ProtectedRoute element={<Transaction />} />}
           />
           <Route
+            path="/transaction/:transactionId"
+            element={<ProtectedRoute element={<Transaction />} />}
+          />
+          <Route
             path="/transfer-money"
             element={<ProtectedRoute element={<TransferMoney />} />}
           />
