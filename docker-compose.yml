@@ -4,11 +4,11 @@ services:
     restart: always
     image: dudge1/bank_app_auth_server:latest
     ports:
-      - "3500:3500"
+      - "${AUTH_PORT}:${AUTH_PORT}"
     environment:
-      NODE_ENV: development
-      AUTH_PORT: 3500
-      DB_URI: mongodb+srv://dudge1:ip3bank@bank-app-ip3.yodwqq8.mongodb.net/IP3DB?retryWrites=true&w=majority&appName=Bank-App-IP3
+      NODE_ENV: ${NODE_ENV}
+      AUTH_PORT: ${AUTH_PORT}
+      DB_URI: ${DB_URI}
     depends_on:
       - mongo
 
@@ -17,11 +17,11 @@ services:
     restart: always
     image: dudge1/bank_app_express_server:latest
     ports:
-      - "5001:5001"
+      - "${SERVER_PORT}:${SERVER_PORT}"
     environment:
-      NODE_ENV: development
-      SERVER_PORT: 5001
-      DB_URI: mongodb+srv://dudge1:ip3bank@bank-app-ip3.yodwqq8.mongodb.net/IP3DB?retryWrites=true&w=majority&appName=Bank-App-IP3
+      NODE_ENV: ${NODE_ENV}
+      SERVER_PORT: ${SERVER_PORT}
+      DB_URI: ${DB_URI}
     depends_on:
       - mongo
 
