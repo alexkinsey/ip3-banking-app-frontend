@@ -1,0 +1,37 @@
+services:
+  auth_server:
+    container_name: bank_app_auth_server
+    restart: always
+    image: dudge1/bank_app_auth_server:latest
+    ports:
+      - "${AUTH_PORT}:${AUTH_PORT}"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      AUTH_PORT: ${AUTH_PORT}
+      DB_URI: ${DB_URI}
+    depends_on:
+      - mongo
+
+  express_server:
+    container_name: bank_app_express_server
+    restart: always
+    image: dudge1/bank_app_express_server:latest
+    ports:
+      - "${SERVER_PORT}:${SERVER_PORT}"
+    environment:
+      NODE_ENV: ${NODE_ENV}
+      SERVER_PORT: ${SERVER_PORT}
+      DB_URI: ${DB_URI}
+    depends_on:
+      - mongo
+
+  mongo:
+    container_name: mongodb_bank_app
+    image: mongo
+    volumes:
+      - mongodb:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+  mongodb:
