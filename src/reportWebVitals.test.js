@@ -1,8 +1,6 @@
-// index.test.js
-
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { act } from 'react-dom/test-utils'; // Import act from react-dom/test-utils
+import { act } from 'react-dom/test-utils'; 
 import { App } from './App';
 
 describe('Index', () => {

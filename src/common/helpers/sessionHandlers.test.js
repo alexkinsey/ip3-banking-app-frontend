@@ -1,5 +1,3 @@
-// sessionHandlers.test.js
-
 import {
     setSessionData,
     getSessionData,

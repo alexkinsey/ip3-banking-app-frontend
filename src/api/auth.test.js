@@ -1,5 +1,3 @@
-// auth.test.js
-
 import axios from 'axios';
 import { login } from './auth';
 import { setSessionData, removeSessionData } from '../common/helpers/sessionHandlers';
@@ -53,7 +51,6 @@ describe('login', () => {
     // Call login function
     const result = await login('john.doe@example.com', 'password123');
 
-    // Expectations
     expect(axios.post).toHaveBeenCalledWith('https://localhost:3500/auth/login', {
       email: 'john.doe@example.com',
       password: 'password123',
@@ -63,13 +60,11 @@ describe('login', () => {
   });
 
   it('handles login failure', async () => {
-    // Mock Axios post method to reject with an error
     axios.post.mockRejectedValue(new Error('Unauthorized'));
 
-    // Call login function and expect it to throw an error
     await expect(login('john.doe@example.com', 'password123')).rejects.toThrowError('Login failed!');
 
-    // Expectations
+
     expect(axios.post).toHaveBeenCalledWith('https://localhost:3500/auth/login', {
       email: 'john.doe@example.com',
       password: 'password123',

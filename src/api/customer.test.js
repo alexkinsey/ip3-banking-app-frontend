@@ -1,5 +1,3 @@
-// customer.test.js
-
 import axios from 'axios';
 import { getCustomer } from './customer';
 import { removeSessionData } from '../common/helpers/sessionHandlers'; // Correct import

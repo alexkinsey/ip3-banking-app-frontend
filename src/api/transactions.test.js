@@ -1,5 +1,3 @@
-// transactions.test.js
-
 import axios from 'axios';
 import {
   getTransactionsByMonthYear,
