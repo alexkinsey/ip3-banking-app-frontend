@@ -26,7 +26,20 @@
     "web-vitals": "^2.1.4"
   },
   "devDependencies": {
+    "@babel/core": "^7.24.7",
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-react": "^7.24.7",
+    "axios-mock-adapter": "^1.22.0",
+    "babel-jest": "^27.5.1",
+    "eslint": "^8.10.0",
+    "eslint-config-react-app": "^7.0.0",
+    "eslint-plugin-flowtype": "^7.9.0", 
+    "eslint-plugin-import": "^2.24.2",
+    "eslint-plugin-jsx-a11y": "^6.5.1",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
     "husky": "^9.0.11",
+    "jest": "^27.5.1",
     "lint-staged": "^15.2.4",
     "prettier": "^3.2.5"
   },
@@ -46,6 +59,14 @@
     "hooks": {
       "pre-commit": "lint-staged"
     }
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|jsx|mjs|cjs|ts|tsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": [
+      "<rootDir>/node_modules/(?!(axios|other-package|you-want-to-transform)/)"
+    ]
   },
   "browserslist": {
     "production": [
