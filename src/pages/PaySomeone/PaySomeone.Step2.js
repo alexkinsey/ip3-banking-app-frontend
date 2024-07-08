@@ -7,43 +7,53 @@ import { Heading } from '../../components/Heading/Heading';
 import { InputField } from '../../components/Input/InputField'; // Assuming you have this component
 import { useAccounts } from '../../hooks/useAccounts';
 import { Spacer } from '../../components/ContentLayout/Spacer';
-import { AcScContainer } from './Paysomeone.style';
 import { FaPlus } from 'react-icons/fa6';
-import { FaUser, FaUserCircle } from 'react-icons/fa';
+import { FaUser } from 'react-icons/fa';
+import { AcScContainer } from './PaySomeone.style';
 
-export const Step2 = ({ formData, handleBack, handleSubmit }) => {
+export const Step2 = ({ errors, formData, handleInputChange }) => {
   const { accountsData } = useAccounts();
   const [account, setAccount] = useState(accountsData[0]);
-  const [amount, setAmount] = useState('');
-  const [error, setError] = useState('');
 
   const handleAmountChange = (e) => {
-    const value = e.target.value;
-    // Regex to allow only numbers and two decimal points
+    let value = e.target.value;
+
+    // Prepend 0 if value is "."
+    if (value === '.') {
+      value = '0.';
+    }
+    if (value === '£') {
+      value = '£0';
+    }
+
+    // Remove the £ symbol for processing
+    let numericValueString = value.replace('£', '');
+
+    // Remove leading zeros
+    if (
+      numericValueString.length > 1 &&
+      numericValueString.startsWith('0') &&
+      !numericValueString.startsWith('0.')
+    ) {
+      numericValueString = numericValueString.replace(/^0+/, '');
+    }
+
+    // regex to allow only numbers and two decimal points
     const regex = /^(\d+)?(\.\d{0,2})?$/;
-    if (regex.test(value)) {
-      setAmount(value);
-      setError('');
+    if (!regex.test(numericValueString)) {
+      return;
     }
-  };
 
-  const validateAmount = () => {
-    const numericValue = parseFloat(amount);
-    if (isNaN(numericValue) || numericValue <= 0) {
-      setError('Invalid amount');
-      return false;
-    }
+    // Check if value is too large
+    const numericValue = parseFloat(numericValueString);
     if (numericValue > account.balance) {
-      setError('Amount exceeds account balance');
-      return false;
+      return;
     }
-    return true;
-  };
 
-  const handleNext = () => {
-    if (validateAmount()) {
-      handleSubmit({ ...formData, amount });
-    }
+    // Set the amount with the £ symbol for display
+    handleInputChange({
+      target: { name: 'amount', value: `£${numericValueString}` },
+    });
   };
 
   return (
@@ -55,7 +65,11 @@ export const Step2 = ({ formData, handleBack, handleSubmit }) => {
             Current Account
           </Heading>
           <Text color="white" weight="medium">
-            £{account.balance.toFixed(2)}
+            {formData.amount &&
+            !isNaN(parseFloat(formData.amount.replace('£', '')))
+              ? `£${(account.balance - parseFloat(formData.amount.replace('£', ''))).toFixed(2)}
+            after transfer`
+              : `£${account.balance.toFixed(2)}`}
           </Text>
         </TransferLocationContainer>
       </GroupContent>
@@ -78,11 +92,11 @@ export const Step2 = ({ formData, handleBack, handleSubmit }) => {
             </div>
           </Heading>
           <Text color="white" weight="medium" size={2}>
-            {amount ? (
+            {formData.amount ? (
               <div
                 style={{ display: 'flex', alignItems: 'center', gap: '8px' }}
               >
-                <FaPlus size={20} /> £{amount}
+                <FaPlus size={20} /> {formData.amount}
               </div>
             ) : (
               `Amount to transfer`
@@ -101,17 +115,18 @@ export const Step2 = ({ formData, handleBack, handleSubmit }) => {
       <Spacer />
       <InputField
         label="Amount"
-        value={amount}
+        name="amount"
+        value={formData.amount}
         onChange={handleAmountChange}
         placeholder="Enter amount"
-        error={error}
+        error={errors.amount}
       />
     </>
   );
 };
 
 Step2.propTypes = {
+  errors: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
-  handleBack: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired,
+  handleInputChange: PropTypes.func.isRequired,
 };

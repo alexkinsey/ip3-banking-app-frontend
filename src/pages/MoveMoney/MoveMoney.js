@@ -87,7 +87,7 @@ export const MoveMoney = () => {
             {amount && !isNaN(parseFloat(amount.replace('£', '')))
               ? `£${(accounts.fromAccount.balance - parseFloat(amount.replace('£', ''))).toFixed(2)}
             after transfer`
-              : `£${accounts.fromAccount.balance}`}
+              : `£${accounts.fromAccount.balance.toFixed(2)}`}
           </Text>
         </TransferLocationContainer>
       </GroupContent>

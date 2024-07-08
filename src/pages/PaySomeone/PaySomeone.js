@@ -4,14 +4,17 @@ import { ButtonPattern } from '../../components/ButtonPattern/ButtonPattern';
 import { useNavigate } from 'react-router-dom';
 import { Step1 } from './PaySomeone.Step1';
 import { Step2 } from './PaySomeone.Step2';
+import { useAccounts } from '../../hooks/useAccounts';
 
 export const PaySomeone = () => {
   const navigate = useNavigate();
+  const { accountsData } = useAccounts();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     name: '',
     sortCode: '',
     accountNumber: '',
+    amount: '',
   });
   const [errors, setErrors] = useState({});
 
@@ -41,6 +44,24 @@ export const PaySomeone = () => {
     return validationErrors;
   };
 
+  const validateStep2 = () => {
+    let validationErrors = {};
+
+    const amountString = formData.amount.replace('£', '');
+    const amount = parseFloat(amountString);
+    if (isNaN(amount) || amount <= 0) {
+      validationErrors.amount = 'Invalid amount.';
+    }
+
+    // Assuming account balance is available in account object
+    const accountBalance = accountsData[0].balance;
+    if (amount > accountBalance) {
+      validationErrors.amount = 'Amount exceeds account balance.';
+    }
+
+    return validationErrors;
+  };
+
   const handleNext = () => {
     const validationErrors = validateStep1();
 
@@ -57,8 +78,22 @@ export const PaySomeone = () => {
     setStep(1);
   };
 
-  const handleSubmit = () => {
-    console.log('Form submitted with:', formData);
+  const handleSubmit = async () => {
+    const validationErrors = validateStep2();
+
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
+    // Assume you have an API call function `submitTransfer`
+    // try {
+    //   await submitTransfer(formData);
+    //   navigate('/confirmation'); // Redirect to confirmation page
+    // } catch (error) {
+    //   console.error('Transfer failed:', error);
+    //   setErrors({ api: 'Transfer failed. Please try again.' });
+    // }
   };
 
   return (
@@ -72,9 +107,9 @@ export const PaySomeone = () => {
       )}
       {step === 2 && (
         <Step2
+          errors={errors}
           formData={formData}
-          handleBack={handleBack}
-          handleSubmit={handleSubmit}
+          handleInputChange={handleInputChange}
         />
       )}
       <ButtonPattern
