@@ -20,7 +20,7 @@ export const PaySomeone = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setErrors((prevErrors) => ({ ...prevErrors, [name]: '' })); // Clear error for the field being edited
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: '' }));
     setFormData((prevData) => ({ ...prevData, [name]: value }));
   };
 
@@ -86,14 +86,13 @@ export const PaySomeone = () => {
       return;
     }
 
-    // Assume you have an API call function `submitTransfer`
-    // try {
-    //   await submitTransfer(formData);
-    //   navigate('/confirmation'); // Redirect to confirmation page
-    // } catch (error) {
-    //   console.error('Transfer failed:', error);
-    //   setErrors({ api: 'Transfer failed. Please try again.' });
-    // }
+    try {
+      // await submitTransfer(formData);
+      navigate('/transfer-money');
+    } catch (error) {
+      console.error('Transfer failed:', error);
+      setErrors({ api: 'Transfer failed. Please try again.' });
+    }
   };
 
   return (

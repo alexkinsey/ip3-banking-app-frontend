@@ -4,7 +4,7 @@ import { Text } from '../../components/Text/Text';
 import { GroupContent } from '../../components/ContentLayout/GroupContent';
 import { TransferLocationContainer } from '../MoveMoney/MoveMoney.style';
 import { Heading } from '../../components/Heading/Heading';
-import { InputField } from '../../components/Input/InputField'; // Assuming you have this component
+import { InputField } from '../../components/Input/InputField';
 import { useAccounts } from '../../hooks/useAccounts';
 import { Spacer } from '../../components/ContentLayout/Spacer';
 import { FaPlus } from 'react-icons/fa6';
@@ -13,7 +13,7 @@ import { AcScContainer } from './PaySomeone.style';
 
 export const Step2 = ({ errors, formData, handleInputChange }) => {
   const { accountsData } = useAccounts();
-  const [account, setAccount] = useState(accountsData[0]);
+  const [account] = useState(accountsData[0]);
 
   const handleAmountChange = (e) => {
     let value = e.target.value;
@@ -69,7 +69,7 @@ export const Step2 = ({ errors, formData, handleInputChange }) => {
             !isNaN(parseFloat(formData.amount.replace('£', '')))
               ? `£${(account.balance - parseFloat(formData.amount.replace('£', ''))).toFixed(2)}
             after transfer`
-              : `£${account.balance.toFixed(2)}`}
+              : `£${account.balance}`}
           </Text>
         </TransferLocationContainer>
       </GroupContent>
