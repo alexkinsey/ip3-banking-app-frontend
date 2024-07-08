@@ -9,8 +9,10 @@ import { Spacer } from '../../components/ContentLayout/Spacer';
 import { useNavigate } from 'react-router-dom';
 import { InputField } from '../../components/Input/InputField';
 import { useAccounts } from '../../hooks/useAccounts';
+import { useTheme } from 'styled-components';
 
 export const MoveMoney = () => {
+  const theme = useTheme();
   const { accountsData } = useAccounts();
   const navigate = useNavigate();
   const [accounts, setAccounts] = useState({
@@ -18,13 +20,59 @@ export const MoveMoney = () => {
     toAccount: accountsData[1],
   });
   const [amount, setAmount] = useState('');
+  const [error, setError] = useState('');
 
   const handleValueChange = ({ target: { value } }) => {
-    const numericValue = Number(value);
-    if (numericValue < 0 || numericValue > accounts.fromAccount.balance) {
+    setError('');
+
+    // Prepend 0 if value is "."
+    if (value === '.') {
+      value = '0.';
+    }
+    if (value === '£') {
+      value = '£0';
+    }
+
+    // Remove the £ symbol for processing
+    let numericValueString = value.replace('£', '');
+
+    // Remove leading zeros
+    if (
+      numericValueString.length > 1 &&
+      numericValueString.startsWith('0') &&
+      !numericValueString.startsWith('0.')
+    ) {
+      numericValueString = numericValueString.replace(/^0+/, '');
+    }
+
+    // regex to allow only numbers and two decimal points
+    const regex = /^(\d+)?(\.\d{0,2})?$/;
+    if (!regex.test(numericValueString)) {
       return;
     }
-    setAmount(numericValue);
+
+    // Check if value is too large
+    const numericValue = parseFloat(numericValueString);
+    if (numericValue > accounts.fromAccount.balance) {
+      return;
+    }
+
+    // Set the amount with the £ symbol for display
+    setAmount(value.startsWith('£') ? `£${numericValueString}` : `£${value}`);
+  };
+
+  const handlePrimaryButton = () => {
+    // Remove the £ symbol for processing
+    const numericValue = parseFloat(amount.replace('£', ''));
+    if (
+      isNaN(numericValue) ||
+      numericValue <= 0 ||
+      numericValue > accounts.fromAccount.balance
+    ) {
+      setError('Invalid amount');
+      return;
+    }
+    navigate('/transfer-money');
   };
 
   return (
@@ -36,8 +84,8 @@ export const MoveMoney = () => {
             {accounts.fromAccount.accountType} Account
           </Heading>
           <Text color="white" weight="medium">
-            {amount || amount > 0
-              ? `£${Number(accounts.fromAccount.balance) - Number(amount)}
+            {amount && !isNaN(parseFloat(amount.replace('£', '')))
+              ? `£${(accounts.fromAccount.balance - parseFloat(amount.replace('£', ''))).toFixed(2)}
             after transfer`
               : `£${accounts.fromAccount.balance}`}
           </Text>
@@ -59,18 +107,23 @@ export const MoveMoney = () => {
             {accounts.toAccount.accountType} Account
           </Heading>
           <Text color="white" weight="medium">
-            {amount || amount > 0
-              ? `£${Number(accounts.toAccount.balance) + Number(amount)}
+            {amount && !isNaN(parseFloat(amount.replace('£', '')))
+              ? `£${(accounts.toAccount.balance + parseFloat(amount.replace('£', ''))).toFixed(2)}
             after transfer`
               : `£${accounts.toAccount.balance}`}
           </Text>
         </TransferLocationContainer>
       </GroupContent>
       <Spacer />
+      {error && (
+        <span style={{ color: theme.colors.warning, fontSize: '14px' }}>
+          {error}
+        </span>
+      )}
       <InputField label="Amount" value={amount} onChange={handleValueChange} />
       <ButtonPattern
         primaryLabel="Transfer"
-        onPrimaryClick={() => navigate('/transfer-money')}
+        onPrimaryClick={handlePrimaryButton}
         secondaryLabel="Cancel"
         onSecondaryClick={() => navigate('/transfer-money')}
       />
