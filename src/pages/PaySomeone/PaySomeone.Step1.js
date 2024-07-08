@@ -4,7 +4,7 @@ import { InputField } from '../../components/Input/InputField';
 import { Text } from '../../components/Text/Text';
 import { Spacer } from '../../components/ContentLayout/Spacer';
 
-export const InputForm = ({ errors, formData, handleInputChange }) => {
+export const Step1 = ({ errors, formData, handleInputChange }) => {
   const handleSortCodeChange = (e) => {
     let value = e.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
     if (value.length > 6) {
@@ -40,6 +40,7 @@ export const InputForm = ({ errors, formData, handleInputChange }) => {
         value={formData.name}
         onChange={handleInputChange}
         error={errors.name}
+        placeholder="Enter the payee's name"
       />
       <InputField
         label="Sort code"
@@ -62,7 +63,7 @@ export const InputForm = ({ errors, formData, handleInputChange }) => {
   );
 };
 
-InputForm.propTypes = {
+Step1.propTypes = {
   errors: PropTypes.object.isRequired,
   formData: PropTypes.object.isRequired,
   handleInputChange: PropTypes.func.isRequired,

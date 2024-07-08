@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { PageLayout } from '../../components/PageLayout/PageLayout';
 import { ButtonPattern } from '../../components/ButtonPattern/ButtonPattern';
 import { useNavigate } from 'react-router-dom';
-import { Spacer } from '../../components/ContentLayout/Spacer';
-import { InputForm } from './InputForm';
-import { ReviewForm } from './ReviewForm';
+import { Step1 } from './PaySomeone.Step1';
+import { Step2 } from './PaySomeone.Step2';
 
 export const PaySomeone = () => {
   const navigate = useNavigate();
@@ -65,14 +64,14 @@ export const PaySomeone = () => {
   return (
     <PageLayout heading="Pay Someone">
       {step === 1 && (
-        <InputForm
+        <Step1
           errors={errors}
           formData={formData}
           handleInputChange={handleInputChange}
         />
       )}
       {step === 2 && (
-        <ReviewForm
+        <Step2
           formData={formData}
           handleBack={handleBack}
           handleSubmit={handleSubmit}
