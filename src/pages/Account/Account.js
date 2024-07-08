@@ -76,7 +76,7 @@ export const Account = () => {
             <HR />
           </>
         )}
-        <Heading size={2}>£{account.balance}</Heading>
+        <Heading size={2}>£{account.balance.toFixed(2)}</Heading>
       </Card>
       <MonthPicker
         startDate={account.createdAt}

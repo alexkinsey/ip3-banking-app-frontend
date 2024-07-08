@@ -30,7 +30,7 @@ export const AccountsModal = ({ heading, description, onClose, accounts }) => {
             <StyledLink to={`/transfer-money/money-in/${account._id}`}>
               {account.accountType}
               <div>
-                £{account.balance}
+                £{account.balance.toFixed(2)}
                 <FiChevronRight
                   style={{ fontSize: '24px', position: 'relative', top: '1px' }}
                 />

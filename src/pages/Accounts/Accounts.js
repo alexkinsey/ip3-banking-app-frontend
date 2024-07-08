@@ -34,7 +34,7 @@ export const Accounts = () => {
                   : BankNoteSymbol
               }
               content={`${account.accountType} Account`}
-              subContent={`£${account.balance}`}
+              subContent={`£${account.balance.toFixed(2)}`}
               onClick={() => navigate(`/accounts/${account._id}`)}
             />
           ))}
