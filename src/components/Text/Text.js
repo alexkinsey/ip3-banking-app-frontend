@@ -10,9 +10,15 @@ export const Text = ({
   size = 4,
   weight = 'normal',
   color = 'black',
+  fullWidth = false,
 }) => {
   return (
-    <StyledText $size={size} $weight={weight} $color={toTitleCase(color)}>
+    <StyledText
+      $size={size}
+      $weight={weight}
+      $color={toTitleCase(color)}
+      $fullWidth={fullWidth}
+    >
       {children}
     </StyledText>
   );
@@ -23,4 +29,5 @@ Text.propTypes = {
   size: PropTypes.oneOf([1, 2, 3, 4, 5, 6]),
   weight: PropTypes.oneOf(['light', 'normal', 'medium', 'bold', 'black']),
   color: PropTypes.oneOf(['black', 'grey', 'light', 'white']),
+  fullWidth: PropTypes.bool,
 };

@@ -1,13 +1,15 @@
-// React and PropTypes
-import { useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
-
-// Styled Components
 import styled from 'styled-components';
-
-// Components
 import { Card } from '../Card/Card';
 import { Text } from '../Text/Text';
+
+const InputErrorContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+`;
 
 const InputWrapper = styled.div`
   position: relative;
@@ -58,12 +60,22 @@ const StyledInput = styled.input`
   text-align: right;
   cursor: ${({ readOnly }) => (readOnly ? 'default' : 'text')};
   user-select: ${({ readOnly }) => (readOnly ? 'none' : 'auto')};
+  white-space: nowrap;
+  overflow: hidden;
+`;
+
+const ErrorText = styled.span`
+  color: red;
+  font-size: 14px;
+  margin: 0 8px;
 `;
 
 export const InputField = ({
-  label = '',
+  label,
+  name,
   value,
-  onChange = () => {},
+  onChange,
+  error,
   readOnly = false,
   ...props
 }) => {
@@ -73,54 +85,65 @@ export const InputField = ({
     const inputEl = inputRef.current;
     const wrapperEl = inputEl.parentElement;
 
-    if (inputEl.scrollWidth > inputEl.clientWidth) {
-      wrapperEl.classList.add('scrollable');
-    } else {
-      wrapperEl.classList.remove('scrollable');
-    }
+    const updateScrollableState = () => {
+      if (inputEl.scrollWidth > inputEl.clientWidth) {
+        wrapperEl.classList.add('scrollable');
+      } else {
+        wrapperEl.classList.remove('scrollable');
+      }
+
+      if (inputEl.scrollLeft === 0) {
+        wrapperEl.classList.add('scrolled-left');
+      } else {
+        wrapperEl.classList.remove('scrolled-left');
+      }
+
+      if (inputEl.scrollLeft >= inputEl.scrollWidth - inputEl.clientWidth - 1) {
+        wrapperEl.classList.add('scrolled-right');
+      } else {
+        wrapperEl.classList.remove('scrolled-right');
+      }
+    };
+
+    updateScrollableState();
+    inputEl.addEventListener('scroll', updateScrollableState);
+    window.addEventListener('resize', updateScrollableState);
+
+    return () => {
+      inputEl.removeEventListener('scroll', updateScrollableState);
+      window.removeEventListener('resize', updateScrollableState);
+    };
   }, [value]);
 
-  const handleScroll = (e) => {
-    const inputEl = e.target;
-    const wrapperEl = inputEl.parentElement;
-    const threshold = 4; // Adjust this value as needed
-
-    if (
-      inputEl.scrollLeft >=
-      inputEl.scrollWidth - inputEl.clientWidth - threshold
-    ) {
-      wrapperEl.classList.add('scrolled-right');
-    } else {
-      wrapperEl.classList.remove('scrolled-right');
-    }
-
-    if (inputEl.scrollLeft === 0) {
-      wrapperEl.classList.add('scrolled-left');
-    } else {
-      wrapperEl.classList.remove('scrolled-left');
-    }
-  };
-
   return (
-    <Card row>
-      <Text>{label}</Text>
-      <InputWrapper>
-        <StyledInput
-          ref={inputRef}
-          value={value}
-          onChange={onChange}
-          onScroll={handleScroll}
-          readOnly={readOnly}
-          {...props}
-        />
-      </InputWrapper>
-    </Card>
+    <InputErrorContainer>
+      {error && <ErrorText>{error}</ErrorText>}
+      <Card row>
+        <div style={{ flexGrow: 1 }}>
+          <Text fullWidth>{label}</Text>
+        </div>
+        <div style={{ flexGrow: 2 }}>
+          <InputWrapper>
+            <StyledInput
+              ref={inputRef}
+              name={name}
+              value={value}
+              onChange={onChange}
+              readOnly={readOnly}
+              {...props}
+            />
+          </InputWrapper>
+        </div>
+      </Card>
+    </InputErrorContainer>
   );
 };
 
 InputField.propTypes = {
   label: PropTypes.string,
+  name: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
-  onChange: PropTypes.func,
+  onChange: PropTypes.func.isRequired,
+  error: PropTypes.string,
   readOnly: PropTypes.bool,
 };

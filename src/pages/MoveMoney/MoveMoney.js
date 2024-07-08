@@ -13,8 +13,8 @@ import { useTheme } from 'styled-components';
 
 export const MoveMoney = () => {
   const theme = useTheme();
-  const { accountsData } = useAccounts();
   const navigate = useNavigate();
+  const { accountsData } = useAccounts();
   const [accounts, setAccounts] = useState({
     fromAccount: accountsData[0],
     toAccount: accountsData[1],

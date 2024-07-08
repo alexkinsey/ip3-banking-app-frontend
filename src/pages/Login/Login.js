@@ -79,24 +79,16 @@ export const Login = () => {
             {errors.api}
           </span>
         )}
-        {errors.email && (
-          <span style={{ color: theme.colors.warning, fontSize: '14px' }}>
-            {errors.email}
-          </span>
-        )}
         <InputField
+          error={errors.email}
           name="email"
           label="Email"
           value={formFields.email}
           onChange={handleChange}
           type="email"
         />
-        {errors.password && (
-          <span style={{ color: theme.colors.warning, fontSize: '14px' }}>
-            {errors.password}
-          </span>
-        )}
         <InputField
+          error={errors.password}
           name="password"
           label="Password"
           value={formFields.password}

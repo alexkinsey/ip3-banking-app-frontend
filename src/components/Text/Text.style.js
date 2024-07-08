@@ -15,4 +15,5 @@ export const StyledText = styled.p`
     theme.fonts.weights[$weight] || 'normal'};
   color: ${({ $color, theme }) => theme.colors['text' + $color] || 'black'};
   line-height: 1.5;
+  width: ${({ $fullWidth }) => ($fullWidth ? 'fit-content' : 'auto')};
 `;
