@@ -56,13 +56,13 @@ export const TransferSuccess = ({ formData }) => {
       <ButtonPattern
         primaryLabel="Home"
         onPrimaryClick={() => {
-          refreshAccounts(user.id, accessToken);
           navigate('/');
+          refreshAccounts(user.id, accessToken);
         }}
         secondaryLabel="New Transfer"
         onSecondaryClick={() => {
-          refreshAccounts(user.id, accessToken);
           navigate('/transfer-money');
+          refreshAccounts(user.id, accessToken);
         }}
       />
     </PageLayout>
