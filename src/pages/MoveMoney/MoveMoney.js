@@ -1,3 +1,4 @@
+// MoveMoney.js
 import React, { useState } from 'react';
 import { PageLayout } from '../../components/PageLayout/PageLayout';
 import { ButtonPattern } from '../../components/ButtonPattern/ButtonPattern';
@@ -10,11 +11,14 @@ import { useNavigate } from 'react-router-dom';
 import { InputField } from '../../components/Input/InputField';
 import { useAccounts } from '../../hooks/useAccounts';
 import { useTheme } from 'styled-components';
+import { createTransfer } from '../../api/payments';
+import { useAuthUser } from '../../hooks/useAuthUser';
 
 export const MoveMoney = () => {
   const theme = useTheme();
   const navigate = useNavigate();
-  const { accountsData } = useAccounts();
+  const { accessToken, user } = useAuthUser();
+  const { accountsData, refreshAccounts } = useAccounts();
   const [accounts, setAccounts] = useState({
     fromAccount: accountsData[0],
     toAccount: accountsData[1],
@@ -61,7 +65,7 @@ export const MoveMoney = () => {
     setAmount(value.startsWith('£') ? `£${numericValueString}` : `£${value}`);
   };
 
-  const handlePrimaryButton = () => {
+  const handlePrimaryButton = async () => {
     // Remove the £ symbol for processing
     const numericValue = parseFloat(amount.replace('£', ''));
     if (
@@ -72,11 +76,27 @@ export const MoveMoney = () => {
       setError('Invalid amount');
       return;
     }
-    navigate('/transfer-money');
+
+    try {
+      await createTransfer(
+        accessToken,
+        accounts.fromAccount._id,
+        accounts.toAccount._id,
+        numericValue
+      );
+      await refreshAccounts(user.id, accessToken); // Refresh accounts data
+      navigate('/transfer-money');
+    } catch (error) {
+      setError(
+        error
+          ? error.response.data
+          : 'An error occurred. Please try again later.'
+      );
+    }
   };
 
   return (
-    <PageLayout heading="Move money">
+    <PageLayout heading="Move money" hasBottomButton>
       <GroupContent>
         <Text weight="medium">From</Text>
         <TransferLocationContainer $from>
@@ -110,7 +130,7 @@ export const MoveMoney = () => {
             {amount && !isNaN(parseFloat(amount.replace('£', '')))
               ? `£${(accounts.toAccount.balance + parseFloat(amount.replace('£', ''))).toFixed(2)}
             after transfer`
-              : `£${accounts.toAccount.balance}`}
+              : `£${accounts.toAccount.balance.toFixed(2)}`}
           </Text>
         </TransferLocationContainer>
       </GroupContent>
@@ -120,7 +140,13 @@ export const MoveMoney = () => {
           {error}
         </span>
       )}
-      <InputField label="Amount" value={amount} onChange={handleValueChange} />
+      <InputField
+        label="Amount"
+        name="amount"
+        value={amount}
+        onChange={handleValueChange}
+        placeholder="Enter an amount"
+      />
       <ButtonPattern
         primaryLabel="Transfer"
         onPrimaryClick={handlePrimaryButton}

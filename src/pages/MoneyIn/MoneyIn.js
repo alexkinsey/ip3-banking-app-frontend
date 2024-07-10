@@ -32,7 +32,7 @@ export const MoneyIn = () => {
   }
 
   return (
-    <PageLayout heading="Pay money in">
+    <PageLayout heading="Pay money in" hasBottomButton>
       <Heading size={2} aria-label="Account Type">
         {account.accountType} Account details
       </Heading>

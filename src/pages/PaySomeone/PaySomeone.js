@@ -96,7 +96,7 @@ export const PaySomeone = () => {
   };
 
   return (
-    <PageLayout heading="Pay Someone">
+    <PageLayout heading="Pay Someone" hasBottomButton>
       {step === 1 && (
         <Step1
           errors={errors}

@@ -140,7 +140,7 @@ export const Account = () => {
                 )}
               />
               <Card>
-                {transactionsOnThisDate.map((transaction, index) => (
+                {transactionsOnThisDate.reverse().map((transaction, index) => (
                   <React.Fragment key={transaction._id}>
                     <Transaction
                       id={transaction._id}

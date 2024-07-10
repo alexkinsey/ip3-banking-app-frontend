@@ -109,7 +109,7 @@ export const Home = () => {
                   So far you have spent <strong>£{totalSpentToday}</strong>{' '}
                   today
                 </Text>
-                {todayTransactions.map((transaction, index) => (
+                {todayTransactions.reverse().map((transaction, index) => (
                   <React.Fragment key={transaction._id}>
                     <Transaction
                       id={transaction._id}

@@ -22,7 +22,12 @@ export const Accounts = () => {
   const navigate = useNavigate();
 
   return (
-    <PageLayout linkText="Home" linkLocation={'/'} heading="Accounts">
+    <PageLayout
+      linkText="Home"
+      linkLocation={'/'}
+      heading="Accounts"
+      hasBottomButton
+    >
       <GroupContent>
         {accountsData &&
           accountsData.map((account) => (

@@ -1,5 +1,7 @@
+// useAccounts.js
 import { useContext } from 'react';
 import { AccountsContext } from '../contexts/contexts';
+import { getAccounts } from '../api/accounts'; // Assuming you have this API function
 
 export const useAccounts = () => {
   const { accountsData, setAccountsData, isLoading, setIsLoading } =
@@ -15,5 +17,23 @@ export const useAccounts = () => {
     setIsLoading(true);
   };
 
-  return { accountsData, isLoading, getAccountById, clearAccounts };
+  const refreshAccounts = async (userId, accessToken) => {
+    setIsLoading(true);
+    try {
+      const data = await getAccounts(userId, accessToken);
+      setAccountsData(data);
+    } catch (error) {
+      console.error('Error refreshing accounts data:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    accountsData,
+    isLoading,
+    getAccountById,
+    clearAccounts,
+    refreshAccounts,
+  };
 };

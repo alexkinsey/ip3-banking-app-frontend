@@ -118,7 +118,7 @@ export const Step2 = ({ errors, formData, handleInputChange }) => {
         name="amount"
         value={formData.amount}
         onChange={handleAmountChange}
-        placeholder="Enter amount"
+        placeholder="Enter an amount"
         error={errors.amount}
       />
     </>

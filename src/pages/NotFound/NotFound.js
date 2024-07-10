@@ -21,7 +21,7 @@ export const NotFound = () => {
     navigate('/');
   };
   return (
-    <PageLayout>
+    <PageLayout hasBottomButton>
       <img src={OopsImg} style={{ width: '100%', height: '250px' }} alt="404" />
       <Heading>Oops, this page is all tangled up!</Heading>
       <Text>

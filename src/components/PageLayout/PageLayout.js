@@ -9,9 +9,15 @@ import { GroupContent } from '../ContentLayout/GroupContent';
 // Styles
 import { Container } from './PageLayout.style';
 
-export const PageLayout = ({ children, heading, linkText, linkLocation }) => {
+export const PageLayout = ({
+  children,
+  heading,
+  linkText,
+  linkLocation,
+  hasBottomButton,
+}) => {
   return (
-    <Container>
+    <Container hasBottomButton={hasBottomButton}>
       {heading && linkLocation && linkText ? (
         <GroupContent>
           {linkLocation && linkText && (
