@@ -7,6 +7,7 @@ import { Step2 } from './PaySomeone.Step2';
 import { useAccounts } from '../../hooks/useAccounts';
 import { createPayment } from '../../api/payments';
 import { useAuthUser } from '../../hooks/useAuthUser';
+import { TransferSuccess } from '../TransferSuccess/TransferSuccess';
 
 export const PaySomeone = () => {
   const navigate = useNavigate();
@@ -88,45 +89,52 @@ export const PaySomeone = () => {
       setErrors(validationErrors);
       return;
     }
-    console.log('accountsData[0]._id', accountsData[0]._id);
     try {
       await createPayment(
         accessToken,
         accountsData[0]._id,
-        formData.amount,
+        formData.amount.replace('£', ''), // Ensure the amount is parsed correctly
         formData.accountNumber
       );
-      navigate('/transfer-money');
+      setStep(3);
     } catch (error) {
       console.error('Transfer failed:', error);
-      setErrors({ api: 'Transfer failed. Please try again.' });
+      setErrors({
+        api: 'It looks like those details are incorrect. Check them and try again.',
+      });
     }
   };
 
   return (
-    <PageLayout heading="Pay Someone" hasBottomButton>
-      {step === 1 && (
-        <Step1
-          errors={errors}
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
+    <>
+      {step < 3 ? (
+        <PageLayout heading="Pay Someone" hasBottomButton>
+          {step === 1 && (
+            <Step1
+              errors={errors}
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          {step === 2 && (
+            <Step2
+              errors={errors}
+              formData={formData}
+              handleInputChange={handleInputChange}
+            />
+          )}
+          <ButtonPattern
+            primaryLabel={step === 1 ? 'Next' : 'Transfer'}
+            onPrimaryClick={step === 1 ? handleNext : handleSubmit}
+            secondaryLabel={step === 1 ? 'Cancel' : 'Back'}
+            onSecondaryClick={
+              step === 1 ? () => navigate('/transfer-money') : handleBack
+            }
+          />
+        </PageLayout>
+      ) : (
+        <TransferSuccess formData={formData} />
       )}
-      {step === 2 && (
-        <Step2
-          errors={errors}
-          formData={formData}
-          handleInputChange={handleInputChange}
-        />
-      )}
-      <ButtonPattern
-        primaryLabel={step === 1 ? 'Next' : 'Transfer'}
-        onPrimaryClick={step === 1 ? handleNext : handleSubmit}
-        secondaryLabel={step === 1 ? 'Cancel' : 'Back'}
-        onSecondaryClick={
-          step === 1 ? () => navigate('/transfer-money') : handleBack
-        }
-      />
-    </PageLayout>
+    </>
   );
 };

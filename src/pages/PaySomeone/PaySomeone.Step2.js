@@ -113,6 +113,7 @@ export const Step2 = ({ errors, formData, handleInputChange }) => {
         </AcScContainer>
       </GroupContent>
       <Spacer />
+      {errors.api && <span style={{ color: 'red' }}>{errors.api}</span>}
       <InputField
         label="Amount"
         name="amount"
