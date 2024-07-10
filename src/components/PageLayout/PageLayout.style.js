@@ -12,6 +12,6 @@ export const Container = styled.div`
   gap: 32px;
 
   /* Subtract the height of the navbar and the needed margin */
-  height: ${({ hasBottomButton }) =>
-    hasBottomButton ? 'calc(100dvh - 120px)' : '100%'};
+  height: ${({ $hasBottomButton }) =>
+    $hasBottomButton ? 'calc(100dvh - 120px)' : '100%'};
 `;

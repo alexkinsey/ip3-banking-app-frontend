@@ -5,9 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { Step1 } from './PaySomeone.Step1';
 import { Step2 } from './PaySomeone.Step2';
 import { useAccounts } from '../../hooks/useAccounts';
+import { createPayment } from '../../api/payments';
+import { useAuthUser } from '../../hooks/useAuthUser';
 
 export const PaySomeone = () => {
   const navigate = useNavigate();
+  const { accessToken } = useAuthUser();
   const { accountsData } = useAccounts();
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -85,9 +88,14 @@ export const PaySomeone = () => {
       setErrors(validationErrors);
       return;
     }
-
+    console.log('accountsData[0]._id', accountsData[0]._id);
     try {
-      // await submitTransfer(formData);
+      await createPayment(
+        accessToken,
+        accountsData[0]._id,
+        formData.amount,
+        formData.accountNumber
+      );
       navigate('/transfer-money');
     } catch (error) {
       console.error('Transfer failed:', error);

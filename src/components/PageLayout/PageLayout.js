@@ -17,7 +17,7 @@ export const PageLayout = ({
   hasBottomButton,
 }) => {
   return (
-    <Container hasBottomButton={hasBottomButton}>
+    <Container $hasBottomButton={hasBottomButton}>
       {heading && linkLocation && linkText ? (
         <GroupContent>
           {linkLocation && linkText && (

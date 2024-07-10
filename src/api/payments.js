@@ -7,6 +7,7 @@ export const createPayment = async (
   accountNumber
 ) => {
   try {
+    console.log(fromAccountId, amount, accountNumber);
     console.log(
       'API POST',
       `https://localhost:5001/api/payments/${accountNumber}`
