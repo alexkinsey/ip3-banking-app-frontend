@@ -27,7 +27,7 @@ export const DaySeparator = ({ date, total }) => {
         {date}
       </Text>
       <Text color="white" size={5}>
-        {formatCurrency(total)}
+        {formatCurrency(total.toFixed(2))}
       </Text>
     </DaySeparatorContainer>
   );

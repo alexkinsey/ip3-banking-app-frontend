@@ -42,7 +42,7 @@ export const useTransactions = (accessToken, accountId, month, year) => {
   return { transactions, isLoading };
 };
 
-export const useTransaction = (accessToken, transactionId) => {
+export const useTransaction = (accessToken, transactionId, accountId) => {
   const [transaction, setTransaction] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
@@ -53,6 +53,7 @@ export const useTransaction = (accessToken, transactionId) => {
         const result = await getTransactionsById(
           accessToken,
           transactionId,
+          accountId,
           abortController.signal
         );
         setTransaction(result);
@@ -69,6 +70,6 @@ export const useTransaction = (accessToken, transactionId) => {
     return () => {
       abortController.abort();
     };
-  }, [accessToken, transactionId]);
+  }, [accessToken, transactionId, accountId]);
   return { transaction, isLoading };
 };

@@ -19,7 +19,11 @@ import { LabelText } from './Transaction.style';
 export const Transaction = () => {
   const { transactionId, accountId } = useParams();
   const { accessToken } = useContext(AuthUserContext);
-  const { transaction, isLoading } = useTransaction(accessToken, transactionId);
+  const { transaction, isLoading } = useTransaction(
+    accessToken,
+    transactionId,
+    accountId
+  );
 
   if (isLoading) {
     return <Loading />;

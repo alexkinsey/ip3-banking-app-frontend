@@ -20,7 +20,7 @@ export const ExpensesBars = ({ expenses }) => {
   return (
     <ExpensesContainer>
       {expenses.map(({ label, value, color }) => {
-        const positiveValue = Math.abs(value);
+        const positiveValue = Math.abs(value).toFixed(2);
         const percentage = total !== 0 ? (positiveValue / total) * 100 : 0;
         return (
           <BarLabel key={label}>

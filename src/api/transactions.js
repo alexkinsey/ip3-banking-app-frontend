@@ -27,14 +27,18 @@ export const getTransactionsByMonthYear = async (
   }
 };
 
-export const getTransactionsById = async (accessToken, transactionId) => {
+export const getTransactionsById = async (
+  accessToken,
+  transactionId,
+  accountId
+) => {
   try {
     console.log(
       'API FETCH',
-      `https://localhost:5001/api/transactions/id/${transactionId}`
+      `https://localhost:5001/api/transactions/id/${transactionId}/account/${accountId}`
     );
     const response = await axios.get(
-      `https://localhost:5001/api/transactions/id/${transactionId}`,
+      `https://localhost:5001/api/transactions/id/${transactionId}/account/${accountId}`,
       {
         headers: {
           'x-auth-token': `${accessToken}`,

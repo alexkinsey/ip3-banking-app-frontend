@@ -41,7 +41,7 @@ export const TransferSuccess = ({ formData }) => {
           <Heading>Transfer Successful</Heading>
           {formData && (
             <Text>
-              You successfully transferred <strong>{formData.amount}</strong> to
+              You successfully transferred <strong>{formData.amount}</strong> to{' '}
               {formData.name}
             </Text>
           )}
