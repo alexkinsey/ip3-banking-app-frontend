@@ -87,7 +87,7 @@ export const Account = () => {
         <ExpensesBars
           expenses={[
             {
-              label: 'Income',
+              label: 'Money in',
               value: transactions.reduce(
                 (acc, transaction) =>
                   transaction.amount > 0 ? acc + transaction.amount : acc,
@@ -96,7 +96,7 @@ export const Account = () => {
               color: theme.colors.success,
             },
             {
-              label: 'Spent',
+              label: 'Money out',
               value: transactions.reduce(
                 (acc, transaction) =>
                   transaction.amount < 0 ? acc + transaction.amount : acc,
