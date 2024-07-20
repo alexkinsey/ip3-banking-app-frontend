@@ -62,12 +62,16 @@ describe('Transactions API', () => {
       // Mock Axios get request
       axios.get.mockResolvedValueOnce({ data: mockTransaction });
 
-      const result = await getTransactionsById(accessToken, transactionId);
+      const result = await getTransactionsById(
+        accessToken,
+        transactionId,
+        accountId
+      );
 
       expect(result).toEqual(mockTransaction);
       expect(axios.get).toHaveBeenCalledTimes(1);
       expect(axios.get).toHaveBeenCalledWith(
-        `https://localhost:5001/api/transactions/id/${transactionId}`,
+        `https://localhost:5001/api/transactions/id/${transactionId}/account/${accountId}`,
         {
           headers: {
             'x-auth-token': accessToken,
@@ -83,7 +87,7 @@ describe('Transactions API', () => {
       axios.get.mockRejectedValueOnce(new Error(errorMessage));
 
       await expect(
-        getTransactionsById(accessToken, transactionId)
+        getTransactionsById(accessToken, transactionId, accountId)
       ).rejects.toThrow(errorMessage);
     });
   });
